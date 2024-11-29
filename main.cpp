@@ -52,9 +52,9 @@ void initialize() {
       Auton("Interference\n\nAfter driving forward, robot performs differently if interfered or not.", interfered_example),
       */
      Auton("Red side face clamp towards tower -", auton_rn),
+     Auton("Blue side face clamp towards tower +", auton_bn),
      Auton("Red side face clamp towards tower +", auton_rp),
      Auton("Blue side face clamp towards tower -", auton_bp),
-     Auton("Blue side face clamp towards tower +", auton_bn),
 
   });
 
@@ -170,14 +170,13 @@ void opcontrol() {
       Intake.move(0);
     }
 
-    if (master.get_digital(DIGITAL_R1)) {
+    if (master.get_digital(DIGITAL_R1) || master.get_digital(DIGITAL_X)) {
       Roller.move(-127);
-    } else if (master.get_digital(DIGITAL_R2)) {
+    } else if (master.get_digital(DIGITAL_R2) || master.get_digital(DIGITAL_B)) {
       Roller.move(127);
     } else {
       Roller.move(0);
     }
-
 
     if(master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_LEFT)){
         lift.move_absolute(370, 127);
@@ -196,6 +195,6 @@ void opcontrol() {
     if (master.get_digital_new_press(pros::E_CONTROLLER_DIGITAL_RIGHT)){
         lift.move_absolute(200, 127);
     }
-}
+  }
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
